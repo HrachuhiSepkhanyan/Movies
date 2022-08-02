@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
+import Index from "./pages/home";
+import Routing from "./routing";
+import Form from "./components/main/searchForm/Form";
 
 function App() {
-  return <div className="App"></div>;
+  const [filterValue, setFilterValue] = useState("");
+
+  return (
+    <div className="App">
+      <Index />
+      <Form setFilterValue={setFilterValue} />
+      <Routing filterValue={filterValue} />
+    </div>
+  );
 }
 
 export default App;
