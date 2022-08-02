@@ -9,9 +9,7 @@ interface IInputText {
 const Form: React.FC<IInputText> = ({ setFilterValue }, page: number) => {
   const [inputVal, setInputVal] = useState("");
 
-  useEffect(() => {
-    moviesStore.getMovies(page);
-  }, [page]);
+  useEffect(() => {}, [page]);
 
   return moviesStore.showSearchForm ? (
     <Style.SearchForm>

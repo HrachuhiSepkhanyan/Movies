@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { FilmApi } from "./../API/API";
 import { configure } from "mobx";
 
 configure({
@@ -29,14 +28,6 @@ class MovieStore {
     makeAutoObservable(this);
   }
 
-  getMovie(title: string) {
-    this.loading = true;
-    FilmApi.getFilmByName(title)
-      .then((response) => JSON.stringify(response))
-      .then((result) => {
-        this.loading = false;
-        this.movie = result;
-      });
-  }
+  getMovie(title: string) {}
 }
 export const movieStore = new MovieStore();

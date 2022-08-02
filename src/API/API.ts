@@ -12,6 +12,11 @@ export const FilmApi = {
     return api.get(`apikey=${API_KEY}&t=${title}`);
   },
   getFilmByPage(page: number) {
-    return api.get(`apikey=53ab40d7&s=Batman&page=1&t=series`);
+    return api
+      .get(`apikey=53ab40d7&s=Batman&page=1&t=series`)
+      .then((response) => JSON.stringify(response))
+      .then((result) => {
+        return result;
+      });
   },
 };

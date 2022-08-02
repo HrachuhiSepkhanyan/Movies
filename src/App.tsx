@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import Index from "./pages/home";
 import Routing from "./routing";
-import Form from "./components/main/searchForm/Form";
+import Form from "./components/main/moviesContainer/searchForm/Form";
 
 function App() {
   const [filterValue, setFilterValue] = useState("");
