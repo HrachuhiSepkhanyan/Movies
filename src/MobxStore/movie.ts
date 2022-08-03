@@ -1,11 +1,11 @@
+import { FilmApi } from "./../API/API";
 import { makeAutoObservable } from "mobx";
 import { configure } from "mobx";
-
 configure({
   useProxies: "never",
 });
 
-interface IMovie {
+interface IMovieItem {
   Title: string;
   Year: string;
   Poster: string;
@@ -20,14 +20,16 @@ interface IMovie {
 }
 
 class MovieStore {
-  movie: IMovie | null | string = null;
+  movie: IMovieItem | [] | undefined | string = [];
   loading = false;
-  showSearchField = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  getMovie(title: string) {}
+  getMovie = async (title: string) => {
+    const result = await FilmApi.getFilmByName(title);
+    this.movie = result.data;
+  };
 }
 export const movieStore = new MovieStore();

@@ -1,10 +1,11 @@
 import { Button, Pagination } from "@mui/material";
 import { observer } from "mobx-react";
 import { FC, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { moviesStore } from "../../../MobxStore/movies";
 import Loader from "../../loading/loading";
-import { Style } from "../searchForm/Form.styled";
+import { SearchForm } from "../searchForm/Form.styled";
+import { Style } from "../moviesContainer/style";
 interface IFilm {
   Title: string;
   Year: string;
@@ -19,7 +20,6 @@ const Main: FC<any> = ({ filterValue }) => {
   useEffect(() => {
     moviesStore.getMovies(page);
   }, [page]);
-  console.log(page);
 
   useEffect(() => {
     moviesStore.showSearchForm = true;
@@ -33,7 +33,7 @@ const Main: FC<any> = ({ filterValue }) => {
     <Loader />
   ) : (
     <div>
-      <Style.SearchForm>
+      <SearchForm>
         <h3>Search for a movie</h3>
         <input
           onChange={(e) => {
@@ -42,7 +42,7 @@ const Main: FC<any> = ({ filterValue }) => {
           value={inputVal}
         />
         <button>Search</button>
-      </Style.SearchForm>
+      </SearchForm>
       <div>
         <Pagination
           count={10}
@@ -52,25 +52,31 @@ const Main: FC<any> = ({ filterValue }) => {
           onChange={onPageChange}
         />
       </div>
-      <div>
+      <Style.Container>
         {moviesStore.movies
           .filter((movie: IFilm) =>
             movie.Title.includes(filterValue ? filterValue : "")
           )
           .map((movie: IFilm) => {
             return (
-              <div key={Math.random()}>
-                <div onClick={() => {}}>
-                  <div>
-                    <Button>{movie.Title}</Button>
+              <NavLink
+                key={Math.random()}
+                style={{ textDecoration: "none", color: "inherit" }}
+                to={`/movies/${movie.Title}`}
+              >
+                <Style.FilmItem key={Math.random()}>
+                  <div onClick={() => {}}>
+                    <div>
+                      <Button>{movie.Title}</Button>
+                    </div>
                   </div>
-                </div>
-                <img src={movie.Poster} alt="" />
-                <div>{movie.Year}</div>
-              </div>
+                  <img src={movie.Poster} alt="" />
+                  <div>{movie.Year}</div>
+                </Style.FilmItem>
+              </NavLink>
             );
           })}
-      </div>
+      </Style.Container>
     </div>
   );
 };

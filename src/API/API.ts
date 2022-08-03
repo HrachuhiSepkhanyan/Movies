@@ -9,10 +9,7 @@ const api = axios.create({
 
 export const FilmApi = {
   getFilmByName(title: string) {
-    return api
-      .get(`apikey=${API_KEY}&t=${title}`)
-      .then((response) => JSON.stringify(response))
-      .then((result) => console.log(result));
+    return axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${title}`);
   },
   getFilmByPage(page: number) {
     return axios.get(

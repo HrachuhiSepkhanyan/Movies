@@ -6,14 +6,14 @@ configure({
   useProxies: "never",
 });
 
-interface IMovieItem {
+interface IFilm {
   Title: string;
   Year: string;
   Poster: string;
 }
 
 class MoviesStore {
-  movies: IMovieItem[] = [];
+  movies: IFilm[] = [];
   showSearchForm = false;
   loading = false;
 
