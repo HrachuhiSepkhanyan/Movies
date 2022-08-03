@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { configure } from "mobx";
+import { FilmApi } from "../API/API";
 
 configure({
   useProxies: "never",
@@ -20,6 +21,9 @@ class MoviesStore {
     makeAutoObservable(this);
   }
 
-  getMovies(page: number = 1) {}
+  getMovies(page: number = 1) {
+    const result = FilmApi.getFilmByPage(page);
+    console.log(result);
+  }
 }
 export const moviesStore = new MoviesStore();

@@ -1,16 +1,17 @@
 import { Button, Pagination, Tooltip } from "@mui/material";
 import { observer } from "mobx-react";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { moviesStore } from "../../../MobxStore/movies";
 import Loader from "../../loading/loading";
-
+import { Style } from "../searchForm/Form.styled";
 interface IMovieItem {
   Title: string;
   Year: string;
   Poster: string;
 }
 const Main: FC<any> = ({ filterValue }) => {
+  const [inputVal, setInputVal] = useState("");
   const navigate = useNavigate();
   const params = useParams();
   const page = params.page ? +params.page : 1;
@@ -18,6 +19,7 @@ const Main: FC<any> = ({ filterValue }) => {
   useEffect(() => {
     moviesStore.getMovies(page);
   }, [page]);
+  console.log(page);
 
   useEffect(() => {
     moviesStore.showSearchForm = true;
@@ -35,6 +37,16 @@ const Main: FC<any> = ({ filterValue }) => {
     <Loader />
   ) : (
     <div>
+      <Style.SearchForm>
+        <h3>Search for a movie</h3>
+        <input
+          onChange={(e) => {
+            setInputVal(e.target.value);
+          }}
+          value={inputVal}
+        />
+        <button>Search</button>
+      </Style.SearchForm>
       <div>
         {moviesStore.movies
           .filter((movie: IMovieItem) =>
