@@ -21,9 +21,9 @@ class MoviesStore {
     makeAutoObservable(this);
   }
 
-  getMovies(page: number = 1) {
-    const result = FilmApi.getFilmByPage(page);
-    console.log(result);
-  }
+  getMovies = async (page: number = 1) => {
+    const result = await FilmApi.getFilmByPage(page);
+    this.movies = result.data.Search;
+  };
 }
 export const moviesStore = new MoviesStore();

@@ -1,11 +1,11 @@
-import { Button, Pagination, Tooltip } from "@mui/material";
+import { Button, Pagination } from "@mui/material";
 import { observer } from "mobx-react";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { moviesStore } from "../../../MobxStore/movies";
 import Loader from "../../loading/loading";
 import { Style } from "../searchForm/Form.styled";
-interface IMovieItem {
+interface IFilm {
   Title: string;
   Year: string;
   Poster: string;
@@ -29,10 +29,6 @@ const Main: FC<any> = ({ filterValue }) => {
     navigate(`/${value}`);
   };
 
-  const handleClick = (movie: IMovieItem) => {
-    window.open(`/movies/post/${movie.Title}`);
-  };
-
   return moviesStore.loading ? (
     <Loader />
   ) : (
@@ -48,29 +44,6 @@ const Main: FC<any> = ({ filterValue }) => {
         <button>Search</button>
       </Style.SearchForm>
       <div>
-        {moviesStore.movies
-          .filter((movie: IMovieItem) =>
-            movie.Title.includes(filterValue ? filterValue : "")
-          )
-          .map((movie: any) => {
-            return (
-              <div key={Math.random()}>
-                <div onClick={() => handleClick(movie)}>
-                  <Tooltip title={movie.Title} arrow>
-                    <Button>
-                      {movie.Title.length > 30
-                        ? movie.Title.substring(0, 30) + "..."
-                        : movie.Title}
-                    </Button>
-                  </Tooltip>
-                </div>
-                <img src={movie.Poster} alt="" />
-                <div>{movie.Year}</div>
-              </div>
-            );
-          })}
-      </div>
-      <div>
         <Pagination
           count={10}
           variant="outlined"
@@ -78,6 +51,25 @@ const Main: FC<any> = ({ filterValue }) => {
           page={page}
           onChange={onPageChange}
         />
+      </div>
+      <div>
+        {moviesStore.movies
+          .filter((movie: IFilm) =>
+            movie.Title.includes(filterValue ? filterValue : "")
+          )
+          .map((movie: IFilm) => {
+            return (
+              <div key={Math.random()}>
+                <div onClick={() => {}}>
+                  <div>
+                    <Button>{movie.Title}</Button>
+                  </div>
+                </div>
+                <img src={movie.Poster} alt="" />
+                <div>{movie.Year}</div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

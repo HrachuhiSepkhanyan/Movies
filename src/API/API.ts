@@ -4,7 +4,6 @@ const API_URL = `http://www.omdbapi.com/?`;
 const API_KEY = `53ab40d7`;
 
 const api = axios.create({
-  withCredentials: true,
   baseURL: API_URL,
 });
 
@@ -13,12 +12,11 @@ export const FilmApi = {
     return api
       .get(`apikey=${API_KEY}&t=${title}`)
       .then((response) => JSON.stringify(response))
-      .then((result) => result);
+      .then((result) => console.log(result));
   },
   getFilmByPage(page: number) {
-    return api
-      .get(`apikey=53ab40d7&s=Batman&page=1&t=series`)
-      .then((response) => JSON.stringify(response))
-      .then((result) => result);
+    return axios.get(
+      `http://www.omdbapi.com/?apikey=${API_KEY}&s=Batman&page=${page}&t=series`
+    );
   },
 };
