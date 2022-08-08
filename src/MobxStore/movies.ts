@@ -21,8 +21,12 @@ class MoviesStore {
     makeAutoObservable(this);
   }
 
-  getMovies = async (page: number = 1) => {
-    const result = await FilmApi.getFilmByPage(page);
+  getMovies = async (page: number = 1, title: string) => {
+    const result = await FilmApi.getFilmByPage(page, title);
+    this.movies = result.data.Search;
+  };
+  getMoviesBySearch = async (title: string) => {
+    const result = await FilmApi.getFilmByName(title);
     this.movies = result.data.Search;
   };
 }

@@ -5,12 +5,27 @@ import { movieStore } from "../../MobxStore/movie";
 import { Style } from "./About.style";
 import Loader from "../../components/loading/loading";
 
-const AboutFilm: FC = () => {
+interface IMovieItem {
+  Title: string;
+  Year: string;
+  Poster: string;
+  Released: string;
+  Runtime: string;
+  Genre: string;
+  Writer: string;
+  Actors: string;
+  Language: string;
+  Country: string;
+  Awards: string;
+}
+const AboutFilm: FC<IMovieItem> = () => {
   const params = useParams();
   const title: any = params.title;
+
   useEffect(() => {
     movieStore.getMovie(title);
   }, [title]);
+
   return movieStore.loading ? (
     <Loader />
   ) : (

@@ -11,15 +11,19 @@ interface IFilm {
   Year: string;
   Poster: string;
 }
-const Main: FC<any> = ({ filterValue }) => {
-  const [inputVal, setInputVal] = useState("");
+const Main: FC = () => {
+  const [searchValue, setSearchValue] = useState("Batman");
   const navigate = useNavigate();
   const params = useParams();
   const page = params.page ? +params.page : 1;
 
   useEffect(() => {
-    moviesStore.getMovies(page);
-  }, [page]);
+    moviesStore.getMovies(page, searchValue);
+  }, [page, searchValue]);
+
+  // useEffect(() => {
+  //   moviesStore.getMoviesBySearch(searchValue);
+  // }, [searchValue]);
 
   useEffect(() => {
     moviesStore.showSearchForm = true;
@@ -28,20 +32,26 @@ const Main: FC<any> = ({ filterValue }) => {
   const onPageChange = (event: any, value: number) => {
     navigate(`/${value}`);
   };
+  const handleSearchInputChanges = (e: any) => {
+    setSearchValue(e.target.value);
+  };
 
+  const resetInputField = () => {
+    setSearchValue("");
+  };
+
+  const callSearchFunction = (e: any) => {
+    e.preventDefault();
+    resetInputField();
+  };
   return moviesStore.loading ? (
     <Loader />
   ) : (
     <div>
       <SearchForm>
         <h3>Search for a movie</h3>
-        <input
-          onChange={(e) => {
-            setInputVal(e.target.value);
-          }}
-          value={inputVal}
-        />
-        <button>Search</button>
+        <input onChange={handleSearchInputChanges} value={searchValue} />
+        <input onClick={callSearchFunction} type="submit" value="Search" />
       </SearchForm>
       <div>
         <Pagination
@@ -55,7 +65,7 @@ const Main: FC<any> = ({ filterValue }) => {
       <Style.Container>
         {moviesStore.movies
           .filter((movie: IFilm) =>
-            movie.Title.includes(filterValue ? filterValue : "")
+            movie.Title.includes(searchValue ? searchValue : "")
           )
           .map((movie: IFilm) => {
             return (

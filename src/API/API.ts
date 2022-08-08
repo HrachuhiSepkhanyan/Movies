@@ -8,12 +8,12 @@ const api = axios.create({
 });
 
 export const FilmApi = {
-  getFilmByName(title: string) {
-    return axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&t=${title}`);
+  getFilmByName(title: string | undefined) {
+    return axios.get(`http://www.omdbapi.com/?apikey=${API_KEY}&s=${title}`);
   },
-  getFilmByPage(page: number) {
+  getFilmByPage(page: number, title: string | undefined) {
     return axios.get(
-      `http://www.omdbapi.com/?apikey=${API_KEY}&s=Batman&page=${page}&t=series`
+      `http://www.omdbapi.com/?apikey=${API_KEY}&s=${title}&page=${page}&t=series`
     );
   },
 };
